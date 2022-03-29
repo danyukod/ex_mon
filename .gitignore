@@ -24,3 +24,12 @@ ex_mon-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# Commitizen
+/node_modules
+package-lock.json
+package.json
+
+#IDEA
+.idea
+ex_mon.iml
