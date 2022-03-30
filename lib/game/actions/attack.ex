@@ -4,6 +4,7 @@ defmodule ExMon.Game.Actions.Attack do
 
   @move_avg_power 18..25
   @move_rnd_power 10..35
+  @min_life 0
 
   def attack_opponent(opponent, move) do
     damage = calculate_power(move)
@@ -19,8 +20,8 @@ defmodule ExMon.Game.Actions.Attack do
   defp calculate_power(:move_avg), do: Enum.random(@move_avg_power)
   defp calculate_power(:move_rnd), do: Enum.random(@move_rnd_power)
 
-  defp calculate_total_life(life, damage) when life - damage > 0, do: life - damage
-  defp calculate_total_life(life, damage) when life - damage < 0, do: 0
+  defp calculate_total_life(life, damage) when life - damage > @min_life, do: life - damage
+  defp calculate_total_life(life, damage) when life - damage <= @min_life, do: @min_life
 
   defp update_opponent_life(life, opponent, damage) do
     opponent
