@@ -4,6 +4,7 @@ defmodule ExMon do
 
   @computer_name "Robotinik"
   @computer_moves [:move_avg, :move_rnd, :move_heal]
+  @computer_increase_moves [:move_avg, :move_rnd, :move_heal, :move_heal]
 
   def create_player(name, mov_avg, move_rnd, move_heal) do
     Player.build(name, mov_avg, move_rnd, move_heal)
@@ -15,12 +16,11 @@ defmodule ExMon do
     |> Game.start(player)
 
     turn = Game.info()
-    |> Map.get(:turn)
-
-    Status.print_round_message(Game.info())
+           |> Map.get(:turn)
 
     case turn do
       :computer -> computer_move(Game.info())
+      :player -> Status.print_round_message(Game.info())
     end
   end
 
@@ -49,7 +49,20 @@ defmodule ExMon do
     Status.print_round_message(Game.info())
   end
 
-  defp computer_move(%{turn: :computer}) do
+  defp computer_move(%{turn: :computer, computer: %Player{ life: computer_life}})
+       when computer_life <= 40 do
+    move = {:ok, Enum.random(@computer_increase_moves)}
+    do_move(move)
+  end
+
+  defp computer_move(%{turn: :computer, status: :started}) do
+    Status.print_round_message(Game.info())
+
+    move = {:ok, Enum.random(@computer_moves)}
+    do_move(move)
+  end
+
+  defp computer_move(%{turn: :computer, status: :continue}) do
     move = {:ok, Enum.random(@computer_moves)}
     do_move(move)
   end
