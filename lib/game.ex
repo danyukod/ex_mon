@@ -3,7 +3,7 @@ defmodule ExMon.Game do
   use Agent
 
   def start(computer, player) do
-    initial_value = %{computer: computer, player: player, turn: :player, status: :started}
+    initial_value = %{computer: computer, player: player, turn: sort_turn(), status: :started}
     Agent.start_link(fn -> initial_value end, name: __MODULE__)
   end
 
@@ -42,5 +42,7 @@ defmodule ExMon.Game do
 
   defp update_turn(%{turn: :player} = state), do: Map.put(state, :turn, :computer)
   defp update_turn(%{turn: :computer} = state), do: Map.put(state, :turn, :player)
+
+  defp sort_turn, do: Enum.random([:player, :computer])
 
 end
