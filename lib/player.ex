@@ -16,4 +16,5 @@ defmodule ExMon.Player do
       name: name
     }
   end
+
 end
