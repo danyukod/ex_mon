@@ -31,6 +31,6 @@ defmodule ExMon.Game.Status do
   end
 
   def print_move_message(player, :heal, life) do
-    IO.puts("\n === The #{player} healled itself to #{life} life points. ===\n")
+    IO.puts("\n === The #{player} healed itself to #{life} life points. ===\n")
   end
 end
